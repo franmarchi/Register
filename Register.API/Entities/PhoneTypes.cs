@@ -9,5 +9,6 @@ namespace Register.API.Entities
         
         [Required(ErrorMessage ="O campo é Obrigatório!")]
         public  required string Name { get; set; }
+
     }
 }

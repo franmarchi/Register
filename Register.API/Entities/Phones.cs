@@ -11,6 +11,8 @@ namespace Register.API.Entities
         public required PhoneTypes PhoneType { get; set; }
 
         public string PhoneNumber { get; set; } = string.Empty;
+
+        public virtual required PhoneTypes Phone { get; set; }
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Register.API.Entities
 {
@@ -9,6 +10,9 @@ namespace Register.API.Entities
 
         [Key]
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "O campo CPF é Obrigatório!")]
+        public required string CPF { get; set; }
 
         [Required(ErrorMessage ="O campo Nome é Obrigatório!")]
         
