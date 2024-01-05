@@ -1,6 +1,6 @@
 @Register.API_HostAddress = http://localhost:5156
 
-GET {{Register.API_HostAddress}}/weatherforecast/
+GET {{Register.API_HostAddress}}/
 Accept: application/json
 
 ###
