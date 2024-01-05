@@ -2,10 +2,10 @@
 
 namespace Register.API.Entities
 {
-    public class Person
+    public class People
     {
-        public Person() { }
-        public Person(int id) { Id = id; }
+        public People() { }
+        public People(int id) { Id = id; }
 
         [Key]
         public int Id { get; set; }

@@ -12,13 +12,13 @@ namespace Register.API.Controllers
         private readonly APIDbContext _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
+        public async Task<ActionResult<IEnumerable<People>>> GetPeople()
         {
             return await _context.People.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Person>> GetPerson(int id)
+        public async Task<ActionResult<People>> GetPerson(int id)
         {
             var Person = await _context.People.FindAsync(id);
 
@@ -31,7 +31,7 @@ namespace Register.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePerson(int id, Person person)
+        public async Task<IActionResult> UpdatePerson(int id, People person)
         {
             if (id != person.Id)
             {
@@ -60,7 +60,7 @@ namespace Register.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Person>> PostPeople(Person Person)
+        public async Task<ActionResult<People>> PostPeople(People Person)
         {
             _context.People.Add(Person);
             await _context.SaveChangesAsync();

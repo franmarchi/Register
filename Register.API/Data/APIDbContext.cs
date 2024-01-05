@@ -7,7 +7,7 @@ namespace Register.API.Data
     {
         public APIDbContext(DbContextOptions<APIDbContext> options) : base(options) { }
 
-        public DbSet<Person> People { get; set; }
+        public DbSet<People> People { get; set; }
 
         public DbSet<Phones> Phones { get; set; }
 
