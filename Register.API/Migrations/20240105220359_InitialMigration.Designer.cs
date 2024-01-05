@@ -11,8 +11,8 @@ using Register.API.Data;
 namespace Register.API.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    [Migration("20240105215908_AdjustmentTablesRelationShip")]
-    partial class AdjustmentTablesRelationShip
+    [Migration("20240105220359_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

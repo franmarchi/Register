@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Register.API.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,11 +38,18 @@ namespace Register.API.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PhoneTypeId = table.Column<int>(type: "int", nullable: false),
                     PhoneNumber = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PhoneId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Phones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Phones_PhoneTypes_PhoneId",
+                        column: x => x.PhoneId,
+                        principalTable: "PhoneTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Phones_PhoneTypes_PhoneTypeId",
                         column: x => x.PhoneTypeId,
@@ -58,6 +65,8 @@ namespace Register.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CPF = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
@@ -78,6 +87,11 @@ namespace Register.API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_People_PhoneId",
                 table: "People",
+                column: "PhoneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Phones_PhoneId",
+                table: "Phones",
                 column: "PhoneId");
 
             migrationBuilder.CreateIndex(
