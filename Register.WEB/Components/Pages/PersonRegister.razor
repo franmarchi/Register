@@ -2,8 +2,45 @@
 @attribute [StreamRendering]
 @inject HttpClient Http
 
-<h3>Cadastro de Pessoas</h3>
+<h1>Cadastro de Pessoas</h1>
+
+@if (people == null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Data de Nascimento</th>
+                <th>Cadastro está Ativo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in people)
+            {
+                <tr>
+                    <td>@forecast.Id</td>
+                    <td>@forecast.Name</td>
+                    <td>@forecast.BirthDate</td>
+                    <td>@forecast.IsActive</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
+    IEnumerable<People> people;
+
+    protected override async Task OnInitializedAsync()
+    {
+        people = await Http.GetFromJsonAsync<List<People>>("https://localhost:7153/api/People");
+
+    }
+
 
 }
