@@ -1,91 +1,57 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Register.API.Data;
 using Register.API.Entities;
+using Register.API.Repositories;
 
 namespace Register.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/")]
     [ApiController]
-    public class PeopleController(APIDbContext context) : ControllerBase
+    public class PeopleController(IPeopleRepository peopleRepository) : ControllerBase
     {
-        private readonly APIDbContext _context = context;
+        private readonly IPeopleRepository peopleRepository = peopleRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<People>>> GetPeople()
+        public async Task<ActionResult<IEnumerable<People>>> GetAll()
         {
-            return await _context.People.ToListAsync();
+            var people = await peopleRepository.GetAll();
+            return Ok(people);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<People>> GetPerson(int id)
+        [HttpGet("{name}")]
+        public async Task<ActionResult<People>> GetPersonByName(string name)
         {
-            var Person = await _context.People.FindAsync(id);
+            var person = await peopleRepository.GetPersonByName(name);
 
-            if (Person == null)
+            if (person == null)
             {
                 return NotFound();
             }
 
-            return Person;
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePerson(int id, People person)
-        {
-            if (id != person.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(person).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PersonExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return person;
         }
 
         [HttpPost]
-        public async Task<ActionResult<People>> PostPeople(People Person)
+        public async Task<ActionResult<People>> NewPerson(People Person)
         {
-            _context.People.Add(Person);
-            await _context.SaveChangesAsync();
+            var person = await peopleRepository.NewPerson(Person);
 
-            return CreatedAtAction("GetPeople", new { id = Person.Id }, Person);
+            return Ok(person);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdatePerson(People Person)
+        {
+            var person = await peopleRepository.UpdatePerson(Person);
+            
+            return Ok(person);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePeople(int id)
+        public async Task<IActionResult> DeletePerson(int id)
         {
-            var Person = await _context.People.FindAsync(id);
-            if (Person == null)
-            {
-                return NotFound();
-            }
+            var person = await peopleRepository.DeletePerson(id);
 
-            _context.People.Remove(Person);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PersonExists(int id)
-        {
-            return _context.People.Any(e => e.Id == id);
+            return Ok(person);
         }
     }
 }

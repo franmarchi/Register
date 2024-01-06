@@ -10,8 +10,5 @@ namespace Register.API.Data
         public DbSet<People> People { get; set; }
 
         public DbSet<Phones> Phones { get; set; }
-
-        public DbSet<PhoneTypes> PhoneTypes { get; set; }
-
     }
 }

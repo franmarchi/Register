@@ -1,41 +1,67 @@
 ﻿using Register.API.Entities;
+using Register.API.Repositories;
+using System.Text.Json;
 
 namespace Register.WEB.Services
 {
-    public class PeopleService : IPeopleService
+    public class PeopleService : IPeopleRepository
     {
         public HttpClient HttpClient { get; set; }
+        
+        public  readonly JsonSerializerOptions _options;
 
         public PeopleService(HttpClient httpClient)
         {
             HttpClient = httpClient;
+            _options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
         }
-
-        public async Task<IEnumerable<People>> GetAll()
+        
+        public async Task<List<People>> GetAll()
         {
-            var People = await HttpClient.GetFromJsonAsync<IEnumerable<People>>("api/People");
+            var people = await HttpClient.GetAsync("api/People");
 
-            return People;
+            var response = await people.Content.ReadFromJsonAsync<List<People>>();
+
+            return response!;
         }
 
         public async Task<People> GetPersonByName(string Name)
         {
-            throw new NotImplementedException();
+            var person = await HttpClient.GetAsync($"api/People/{Name}");
+            
+            var response = await person.Content.ReadFromJsonAsync<People>();
+            
+            return response!;
         }
 
         public async Task<People> NewPerson(People Person)
         {
-            throw new NotImplementedException();
+            var person = await HttpClient.PostAsJsonAsync("api/People", Person);
+            
+            var response = await person.Content.ReadFromJsonAsync<People>();
+            
+            return response!;
         }
 
         public async Task<People> UpdatePerson(People Person)
         {
-            throw new NotImplementedException();
+            var person = await HttpClient.PutAsJsonAsync("api/People", Person);
+            
+            var response = await person.Content.ReadFromJsonAsync<People>();
+            
+            return response!;
         }
 
-        public async Task DeletePerson(int Id)
+        public async Task<People> DeletePerson(int Id)
         {
-            throw new NotImplementedException();
+            var person = await HttpClient.DeleteAsync($"api/People/{Id}");
+
+            var response = await person.Content.ReadFromJsonAsync<People>();
+
+            return response!;
         }
     }
 }

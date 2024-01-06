@@ -12,3 +12,9 @@
 @using Register.API
 @using Register.API.Controllers
 @using Register.API.Entities
+@using Register.API.Repositories
+
+@inject IPeopleRepository peopleService
+
+@inject NavigationManager _navigation
+@inject IJSRuntime js

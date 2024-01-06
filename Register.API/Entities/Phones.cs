@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Register.API.Entities
 {
@@ -7,8 +6,12 @@ namespace Register.API.Entities
     {
         [Key]
         public int Id { get; set; }
-        
-        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required(ErrorMessage ="O campo Tipo do Telefone é Obrigatório!")]
+        public required string PhoneType { get; set; }
+
+        [Required(ErrorMessage = "O campo Número é Obrigatório!")]
+        public required string PhoneNumber { get; set; }
 
     }
 

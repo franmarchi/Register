@@ -1,8 +1,8 @@
 ﻿using Register.API.Entities;
 
-namespace Register.WEB.Services
+namespace Register.API.Repositories
 {
-    public interface IPeopleService
+    public interface IPeopleRepository
     {
         Task<List<People>> GetAll();
 
