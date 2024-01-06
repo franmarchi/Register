@@ -1,4 +1,5 @@
 using Register.WEB.Components;
+using Register.WEB.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<IPeopleService, PeopleService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7153/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 
 var app = builder.Build();
 

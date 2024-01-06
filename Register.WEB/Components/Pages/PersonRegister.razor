@@ -1,6 +1,6 @@
 ﻿@page "/personRegister"
 @attribute [StreamRendering]
-@inject HttpClient Http
+@inject IPeopleService IPeopleService
 
 <h1>Cadastro de Pessoas</h1>
 
@@ -38,7 +38,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        people = await Http.GetFromJsonAsync<List<People>>("https://localhost:7153/api/People");
+        people = await IPeopleService.GetAll();
 
     }
 
