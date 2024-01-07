@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using Register.API.Data;
+using Register.API.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +11,10 @@ var ConnectionMySql = builder.Configuration.GetConnectionString("ConnectionMySql
 builder.Services.AddDbContext<APIDbContext>(x => x.UseMySql(
     ConnectionMySql,
     ServerVersion.Parse("8.0.35")
-    )
+)
 );
+
+builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
 
 builder.Services.AddHttpClient();
 

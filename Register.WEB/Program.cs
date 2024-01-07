@@ -8,12 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddHttpClient<IPeopleRepository, PeopleService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7153/");
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
-});
-
 builder.Services.AddScoped<IPeopleRepository, PeopleService>();
 
 builder.Services.AddScoped(http => new HttpClient
