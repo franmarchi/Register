@@ -11,16 +11,13 @@ namespace Register.API.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "O campo CPF é Obrigatório!")]
-        public required string CPF { get; set; }
+        public string? CPF { get; set; }
 
-        [Required(ErrorMessage ="O campo Nome é Obrigatório!")]
-        
-        public required string Name { get; set; }
+        public string? Name { get; set; }
         
         public DateOnly BirthDate { get; set; }
-        
-        public Phones? Phone { get; set; }
+
+        public Phones Phone { get; set; } = new Phones();
         
         public bool IsActive { get; set; }
     }

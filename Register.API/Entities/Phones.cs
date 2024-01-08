@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Register.API.Entities
 {
@@ -7,11 +8,22 @@ namespace Register.API.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="O campo Tipo do Telefone é Obrigatório!")]
-        public required string PhoneType { get; set; }
+        public string? PhoneType { get; set; }
 
-        [Required(ErrorMessage = "O campo Número é Obrigatório!")]
-        public required string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
+
+    }
+
+    public enum PhoneTypes
+    {
+        [Description("Celular")]
+        Celular,
+        
+        [Description("Residencial")]
+        Residencial,
+        
+        [Description("Comercial")]
+        Comercial,
 
     }
 

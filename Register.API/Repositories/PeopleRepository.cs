@@ -9,7 +9,7 @@ public class PeopleRepository(APIDbContext context) : IPeopleRepository
     private readonly APIDbContext _context = context;
 
     public async Task<List<People>> GetAll() =>
-                        await _context.People.ToListAsync();
+                        await _context.People.Include(x => x.Phone).ToListAsync();
 
     public async Task<People> GetPersonByName(string Name)
     {
@@ -23,13 +23,16 @@ public class PeopleRepository(APIDbContext context) : IPeopleRepository
         return person;
     }
 
+    public async Task<People> GetPersonById(int Id)
+    {
+        var person = await _context.People.FirstOrDefaultAsync(x => x.Id == Id);
+        if (person is null) return null!;
+        return person;
+    }
+
     public async Task<People> NewPerson(People Person)
     {
         if (Person == null) return null!;
-
-        var person = await _context.People.Where(x => x.Id == Person.Id).FirstOrDefaultAsync();
-
-        if (person == null) return null!;
 
         var newPerson = _context.People.Add(Person).Entity;
 
@@ -49,8 +52,6 @@ public class PeopleRepository(APIDbContext context) : IPeopleRepository
     public async Task<People> UpdatePerson(People Person)
     {
         var person = await _context.People.FirstOrDefaultAsync(x => x.Id == Person.Id);
-
-        if (person == null) return null!;
 
         person = Person;
 

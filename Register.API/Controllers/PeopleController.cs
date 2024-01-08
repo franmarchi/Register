@@ -17,6 +17,13 @@ namespace Register.API.Controllers
             return Ok(people);
         }
 
+        [HttpGet("$Person/{id}")]
+        public async Task<ActionResult<List<People>>> GetPersonById(int id)
+        {
+            var person = await peopleRepository.GetPersonById(id);
+            return Ok(person);
+        }
+
         [HttpGet("{name}")]
         public async Task<ActionResult<People>> GetPersonByName(string name)
         {

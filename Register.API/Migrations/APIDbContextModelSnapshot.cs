@@ -46,7 +46,7 @@ namespace Register.API.Migrations
 
                     b.HasIndex("PhoneId");
 
-                    b.ToTable("People");
+                    b.ToTable("People", (string)null);
                 });
 
             modelBuilder.Entity("Register.API.Entities.Phones", b =>
@@ -65,7 +65,7 @@ namespace Register.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Phones");
+                    b.ToTable("Phones", (string)null);
                 });
 
             modelBuilder.Entity("Register.API.Entities.People", b =>

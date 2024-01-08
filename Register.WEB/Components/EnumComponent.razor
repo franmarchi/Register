@@ -1,0 +1,28 @@
+﻿<div class="form-group">
+    <select class="form-control"
+            value="@EnumProperty"
+            @onchange="OnValueChanged">
+        @foreach (var type in Enum.GetValues(EnumType))
+        {
+            <option value="@type">@type</option>
+        }
+    </select>
+</div>
+
+@code {
+
+    [Parameter]
+    public dynamic EnumProperty { get; set; }
+
+    [Parameter]
+    public EventCallback<dynamic> EnumPropertyChanged { get; set; }
+
+    [Parameter]
+    public Type EnumType { get; set; }
+
+    private Task OnValueChanged(ChangeEventArgs e)
+    {
+        EnumProperty = Enum.Parse(EnumType, e.Value.ToString(), true); // case insensitive
+        return EnumPropertyChanged.InvokeAsync(EnumProperty);
+    }
+}

@@ -6,6 +6,8 @@ namespace Register.API.Repositories
     {
         Task<List<People>> GetAll();
 
+        Task<People> GetPersonById(int Id);
+
         Task<People> GetPersonByName(string Name);
 
         Task<People> NewPerson(People Person);

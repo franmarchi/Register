@@ -1,5 +1,6 @@
 ﻿using Register.API.Entities;
 using Register.API.Repositories;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace Register.WEB.Services
@@ -25,6 +26,13 @@ namespace Register.WEB.Services
 
             var response = await people.Content.ReadFromJsonAsync<List<People>>();
 
+            return response!;
+        }
+
+        public async Task<People> GetPersonById(int Id)
+        {
+            var person = await HttpClient.GetAsync($"api/People/Person/{Id}");
+            var response = await person.Content.ReadFromJsonAsync<People>();
             return response!;
         }
 

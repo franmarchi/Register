@@ -1,5 +1,6 @@
 ﻿@page "/personSearch"
 @attribute [StreamRendering]
+@rendermode InteractiveServer
 
 <br />
 <br />
@@ -15,31 +16,28 @@
     <form>
         <div class="form-row align-items-justify">
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" class="form-control" id="search" placeholder="Pesquise por Nome">
                 </div>
-                <br />
-                <div class="col-sm-2">
+                <div class="col">
                     <button type="submit" @onclick="@Search" class="btn btn-primary mb-2">Buscar</button>
                 </div>
-                <div class="col-sm-2">
-                    <button type="submit" @onclick="()=>Search()" class="btn btn-primary mb-2">Adicionar</button>
+                <div class="col">
+                    <button type="submit" @onclick="NavigateToNewPersonPage" class="btn btn-primary mb-2">Adicionar</button>
                 </div>
             </div>
-        </div>
 
-        @if (People.Count > 0)
-        {
-            <div class="card-header">
-                Lista de clientes
-            </div>
-            <div class="card-body">
+            <br/>
+
+            <div class="form-row align-items-justify">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
+                            <th>Tipo do Telefone</th>
+                            <th>Número do Telefone</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -50,10 +48,12 @@
                                 <td>@person.Id</td>
                                 <td>@person.Name</td>
                                 <td>@person.BirthDate</td>
+                                <td>@person.Phone.PhoneType</td>
+                                <td>@person.Phone.PhoneNumber</td>
                                 <td>
                                     <div class="hstack gap-2">
-                                        <button class="btn  btn-info"> Edita</button>
-                                        <button class="btn  btn-danger"> Deleta</button>
+                                        <button @onclick="()=>Update(person)" class="btn btn-link"> Editar</button>
+                                        <button @onclick="()=>Delete(person.Id)" class="btn btn-link"> Excluir</button>
                                     </div>
                                 </td>
                             </tr>
@@ -61,11 +61,8 @@
                     </tbody>
                 </table>
             </div>
-        }
-        else
-        {
-            <div class="alert alert-info"> Zero Registros </div>
-        }
+
+        </div>
     </form>
 
 </div>
@@ -75,9 +72,22 @@
 
     private People? person { get; set; }
 
-    private async Task LoadPeople()
+    [Parameter]
+    public string? parameterSearch { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        var people = await peopleService.GetAll();
+        await Search();
+    }
+
+    private async Task Search()
+    {
+        var people = new List<People>();
+
+        if (parameterSearch == null)
+        {
+            people = await peopleService.GetAll();
+        }
 
         if (People == null) return;
 
@@ -88,10 +98,23 @@
         }
     }
 
-    private async Task Search()
+    private void NavigateToNewPersonPage()
     {
-        await LoadPeople();
+        _navigation.NavigateTo("/person", true);
     }
+
+    private void Update(People person)
+    {
+        _navigation.NavigateTo($"person/{person.Id}");
+    }
+
+    private async Task Delete(int id)
+    {
+        var cliente = await peopleService.DeletePerson(id);
+        await Search();
+    }
+
+   
 
 
 }
