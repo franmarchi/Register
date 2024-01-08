@@ -6,7 +6,7 @@ namespace Register.API.Entities
     public class People
     {
         public People() { }
-        public People(int id) { Id = id; }
+        public People(string name) { Name = name; }
 
         [Key]
         public int Id { get; set; }
