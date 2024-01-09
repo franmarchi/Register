@@ -1,5 +1,4 @@
 ﻿@page "/personSearch"
-@attribute [StreamRendering]
 @rendermode InteractiveServer
 
 <br />
@@ -105,7 +104,7 @@
 
     private void Update(People person)
     {
-        _navigation.NavigateTo($"person/{person.Id}");
+        _navigation.NavigateTo($"person/{person.Id}", true);
     }
 
     private async Task Delete(int id)
@@ -113,8 +112,4 @@
         var cliente = await peopleService.DeletePerson(id);
         await Search();
     }
-
-   
-
-
 }

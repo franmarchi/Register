@@ -17,7 +17,7 @@ namespace Register.API.Controllers
             return Ok(people);
         }
 
-        [HttpGet("$Person/{id}")]
+        [HttpGet("Person/{id}")]
         public async Task<ActionResult<List<People>>> GetPersonById(int id)
         {
             var person = await peopleRepository.GetPersonById(id);
@@ -37,7 +37,7 @@ namespace Register.API.Controllers
             return person;
         }
 
-        [HttpPost]
+        [HttpPost("NewPerson")]
         public async Task<ActionResult<People>> NewPerson(People Person)
         {
             var person = await peopleRepository.NewPerson(Person);
@@ -45,7 +45,7 @@ namespace Register.API.Controllers
             return Ok(person);
         }
 
-        [HttpPut]
+        [HttpPut("UpdatePerson")]
         public async Task<IActionResult> UpdatePerson(People Person)
         {
             var person = await peopleRepository.UpdatePerson(Person);

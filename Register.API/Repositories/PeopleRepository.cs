@@ -4,9 +4,15 @@ using Register.API.Entities;
 
 namespace Register.API.Repositories;
 
-public class PeopleRepository(APIDbContext context) : IPeopleRepository
+public class PeopleRepository : IPeopleRepository
 {
-    private readonly APIDbContext _context = context;
+    private readonly APIDbContext _context;
+
+    public PeopleRepository(APIDbContext context)
+    {
+        _context = context;
+    }
+
 
     public async Task<List<People>> GetAll() =>
                         await _context.People.Include(x => x.Phone).ToListAsync();
@@ -36,15 +42,7 @@ public class PeopleRepository(APIDbContext context) : IPeopleRepository
 
         var newPerson = _context.People.Add(Person).Entity;
 
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateException ex)
-        {
-            Console.WriteLine(ex.GetType().FullName);
-            Console.WriteLine(ex.Message);
-        }
+        await _context.SaveChangesAsync();
 
         return newPerson;
     }
@@ -53,19 +51,12 @@ public class PeopleRepository(APIDbContext context) : IPeopleRepository
     {
         var person = await _context.People.FirstOrDefaultAsync(x => x.Id == Person.Id);
 
-        person = Person;
+        person.Phone.PhoneNumber = Person.Phone.PhoneNumber;
+        person.IsActive = Person.IsActive;
+
+        //await _context.SaveChangesAsync();
 
         _context.Entry(person).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateException ex)
-        {
-            Console.WriteLine(ex.GetType().FullName);
-            Console.WriteLine(ex.Message);
-        }
 
         return await _context.People.FirstOrDefaultAsync(x => x.Id == Person.Id);
     }

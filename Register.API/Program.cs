@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 using Register.API.Data;
 using Register.API.Repositories;
+using System.Diagnostics.Metrics;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +14,15 @@ builder.Services.AddDbContext<APIDbContext>(x => x.UseMySql(
 )
 );
 
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
 builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
+
+//builder.Services.AddScoped(http => new HttpClient
+//{
+//    BaseAddress = new Uri(builder.Configuration.GetSection("BaseAddress").Value!)
+//});
 
 builder.Services.AddHttpClient();
 

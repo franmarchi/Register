@@ -32,7 +32,9 @@ namespace Register.WEB.Services
         public async Task<People> GetPersonById(int Id)
         {
             var person = await HttpClient.GetAsync($"api/People/Person/{Id}");
+
             var response = await person.Content.ReadFromJsonAsync<People>();
+
             return response!;
         }
 
@@ -47,7 +49,7 @@ namespace Register.WEB.Services
 
         public async Task<People> NewPerson(People Person)
         {
-            var person = await HttpClient.PostAsJsonAsync("api/People", Person);
+            var person = await HttpClient.PostAsJsonAsync("api/People/NewPerson", Person);
             
             var response = await person.Content.ReadFromJsonAsync<People>();
             
@@ -56,7 +58,7 @@ namespace Register.WEB.Services
 
         public async Task<People> UpdatePerson(People Person)
         {
-            var person = await HttpClient.PutAsJsonAsync("api/People", Person);
+            var person = await HttpClient.PutAsJsonAsync("api/People/UpdatePerson", Person);
             
             var response = await person.Content.ReadFromJsonAsync<People>();
             

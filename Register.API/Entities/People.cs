@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Register.API.Entities
 {
@@ -8,7 +9,7 @@ namespace Register.API.Entities
         public People() { }
         public People(string name) { Name = name; }
 
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key()]
         public int Id { get; set; }
 
         public string? CPF { get; set; }
@@ -17,7 +18,7 @@ namespace Register.API.Entities
         
         public DateOnly BirthDate { get; set; }
 
-        public Phones Phone { get; set; } = new Phones();
+        public Phones? Phone { get; set; }
         
         public bool IsActive { get; set; }
     }

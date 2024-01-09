@@ -1,6 +1,7 @@
 using Register.API.Repositories;
 using Register.WEB.Components;
 using Register.WEB.Services;
+using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,12 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<IPeopleRepository, PeopleService>();
-
-builder.Services.AddScoped(http => new HttpClient
+builder.Services.AddHttpClient<IPeopleRepository, PeopleService>(client =>
 {
-    BaseAddress = new Uri("https://localhost:7153/"),
+    client.BaseAddress = new Uri("https://localhost:7153/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json; charset=utf-8");
 });
+
+//builder.Services.AddScoped<IPeopleRepository, PeopleService>();
+
+//builder.Services.AddScoped(http => new HttpClient
+//{
+//    BaseAddress = new Uri("https://localhost:7153/"),
+//    DefaultRequestHeaders = new HttpHeaders("application/json"),
+
+//}) ;
 
 var app = builder.Build();
 
@@ -28,7 +37,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-app.UseAntiforgery();
+app.UseAntiforgery(); 
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
