@@ -24,19 +24,6 @@ namespace Register.API.Controllers
             return Ok(person);
         }
 
-        [HttpGet("{name}")]
-        public async Task<ActionResult<People>> GetPersonByName(string name)
-        {
-            var person = await peopleRepository.GetPersonByName(name);
-
-            if (person == null)
-            {
-                return NotFound();
-            }
-
-            return person;
-        }
-
         [HttpPost("NewPerson")]
         public async Task<ActionResult<People>> NewPerson(People Person)
         {

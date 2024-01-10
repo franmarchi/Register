@@ -15,15 +15,6 @@ builder.Services.AddHttpClient<IPeopleRepository, PeopleService>(client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json; charset=utf-8");
 });
 
-//builder.Services.AddScoped<IPeopleRepository, PeopleService>();
-
-//builder.Services.AddScoped(http => new HttpClient
-//{
-//    BaseAddress = new Uri("https://localhost:7153/"),
-//    DefaultRequestHeaders = new HttpHeaders("application/json"),
-
-//}) ;
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

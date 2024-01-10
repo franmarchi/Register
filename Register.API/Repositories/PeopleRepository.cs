@@ -17,18 +17,6 @@ public class PeopleRepository : IPeopleRepository
     public async Task<List<People>> GetAll() =>
                         await _context.People.Include(x => x.Phone).ToListAsync();
 
-    public async Task<People> GetPersonByName(string Name)
-    {
-        var person = await _context.People.FirstOrDefaultAsync(x => x.Name.Contains(Name));
-
-        if (person == null)
-        {
-            return null!;
-        }
-
-        return person;
-    }
-
     public async Task<People> GetPersonById(int Id)
     {
         var person = await _context.People.FirstOrDefaultAsync(x => x.Id == Id);
@@ -51,12 +39,10 @@ public class PeopleRepository : IPeopleRepository
     {
         var person = await _context.People.FirstOrDefaultAsync(x => x.Id == Person.Id);
 
-        person.Phone.PhoneNumber = Person.Phone.PhoneNumber;
+        person.Name = Person.Name;
         person.IsActive = Person.IsActive;
 
-        //await _context.SaveChangesAsync();
-
-        _context.Entry(person).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
 
         return await _context.People.FirstOrDefaultAsync(x => x.Id == Person.Id);
     }

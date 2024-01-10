@@ -15,18 +15,12 @@
     <form>
         <div class="form-row align-items-justify">
             <div class="row">
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="search" placeholder="Pesquise por Nome">
-                </div>
-                <div class="col">
-                    <button type="submit" @onclick="@Search" class="btn btn-primary mb-2">Buscar</button>
-                </div>
                 <div class="col">
                     <button type="submit" @onclick="NavigateToNewPersonPage" class="btn btn-primary mb-2">Adicionar</button>
                 </div>
             </div>
 
-            <br/>
+            <br />
 
             <div class="form-row align-items-justify">
                 <table class="table table-striped">
@@ -34,6 +28,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Nome</th>
+                            <th>CPF</th>
                             <th>Data de Nascimento</th>
                             <th>Tipo do Telefone</th>
                             <th>Número do Telefone</th>
@@ -46,6 +41,7 @@
                             <tr>
                                 <td>@person.Id</td>
                                 <td>@person.Name</td>
+                                <td>@person.CPF</td>
                                 <td>@person.BirthDate</td>
                                 <td>@person.Phone.PhoneType</td>
                                 <td>@person.Phone.PhoneNumber</td>
@@ -71,9 +67,6 @@
 
     private People? person { get; set; }
 
-    [Parameter]
-    public string? parameterSearch { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         await Search();
@@ -83,10 +76,8 @@
     {
         var people = new List<People>();
 
-        if (parameterSearch == null)
-        {
-            people = await peopleService.GetAll();
-        }
+        people = await peopleService.GetAll();
+
 
         if (People == null) return;
 

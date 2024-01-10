@@ -8,8 +8,6 @@ namespace Register.API.Repositories
 
         Task<People> GetPersonById(int Id);
 
-        Task<People> GetPersonByName(string Name);
-
         Task<People> NewPerson(People Person);
 
         Task<People> UpdatePerson(People Person);

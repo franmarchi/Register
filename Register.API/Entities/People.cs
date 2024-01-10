@@ -12,14 +12,19 @@ namespace Register.API.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key()]
         public int Id { get; set; }
 
+        [Required(ErrorMessage ="O Campo é obrigatório")]
         public string? CPF { get; set; }
 
+        [Required(ErrorMessage = "O Campo é obrigatório")]
         public string? Name { get; set; }
-        
+
+        [Required(ErrorMessage = "O Campo é obrigatório")]
         public DateOnly BirthDate { get; set; }
 
-        public Phones? Phone { get; set; }
+        [Required(ErrorMessage = "O Campo é obrigatório")]
+        public Phones Phone { get; set; } = new Phones();
         
+        [Required(ErrorMessage ="O Campo é obrigatório")]
         public bool IsActive { get; set; }
     }
 }

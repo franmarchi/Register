@@ -38,15 +38,6 @@ namespace Register.WEB.Services
             return response!;
         }
 
-        public async Task<People> GetPersonByName(string Name)
-        {
-            var person = await HttpClient.GetAsync($"api/People/{Name}");
-            
-            var response = await person.Content.ReadFromJsonAsync<People>();
-            
-            return response!;
-        }
-
         public async Task<People> NewPerson(People Person)
         {
             var person = await HttpClient.PostAsJsonAsync("api/People/NewPerson", Person);

@@ -47,7 +47,7 @@
 
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Cadastro Ativo?</label>
-                                <input type="checkbox" name="IsActive" bind="@person.IsActive" />
+                                <input type="checkbox" name="IsActive" @bind-value="@person.IsActive" checked="(@person.IsActive == true) ? checked : " />
                             </div>
 
                         </div>
@@ -56,12 +56,6 @@
                         <button type="submit" class="btn btn-primary mt-2" @onclick="NavigateToPeoplePage"> Cancelar</button>
 
                     </EditForm>
-                </div>
-                <div class="card-footer">
-                    Id: @p.Id <br />
-                    Nome:@p.Name <br />
-                    Email: @p.CPF <br />
-                    Idade: @p.BirthDate
                 </div>
             </div>
         </div>
@@ -77,20 +71,18 @@
 
     public People person { get; set; } = new People();
 
-    private People p { get; set; } = new People();
-
     private async Task HandleSave()
     {
         if (person.Id > 0)
         {
-            p = await peopleService.UpdatePerson(person);
+            await peopleService.UpdatePerson(person);
         }
         else
         {
-            p = await peopleService.NewPerson(person);
+            await peopleService.NewPerson(person);
 
         }
-        
+
         NavigateToPeoplePage();
 
     }
@@ -106,3 +98,4 @@
         _navigation.NavigateTo("/personSearch", true);
     }
 }
+
