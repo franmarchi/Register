@@ -42,6 +42,7 @@ public class PeopleRepository : IPeopleRepository
 
         person.Name = Person.Name;
         person.Phone.PhoneNumber = Person.Phone.PhoneNumber;
+        person.Phone.PhoneType = Person.Phone.PhoneType;
         person.IsActive = Person.IsActive;
 
         await _context.SaveChangesAsync();

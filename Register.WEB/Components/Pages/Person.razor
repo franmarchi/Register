@@ -36,7 +36,12 @@
 
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Tipo do Telefone</label>
-                                <EnumComponent EnumProperty="@phoneTypesEnum" EnumType="@(typeof(PhoneTypes))" />
+                                <InputSelect @bind-Value="person.Phone.PhoneType" class="form-control">
+                                    @foreach (var phoneType in Enum.GetValues(typeof(PhoneTypes)))
+                                    {
+                                        <option value="@phoneType">@phoneType</option>
+                                    }
+                                </InputSelect>
                             </div>
 
                             <div class="col-md-4 mb-3">
