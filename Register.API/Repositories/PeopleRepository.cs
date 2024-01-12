@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Register.API.Data;
 using Register.API.Entities;
+using System;
 
 namespace Register.API.Repositories;
 
@@ -19,7 +20,7 @@ public class PeopleRepository : IPeopleRepository
 
     public async Task<People> GetPersonById(int Id)
     {
-        var person = await _context.People.FirstOrDefaultAsync(x => x.Id == Id);
+        var person = await _context.People.Include(x => x.Phone).FirstOrDefaultAsync(x => x.Id == Id);
         if (person is null) return null!;
         return person;
     }
@@ -37,9 +38,10 @@ public class PeopleRepository : IPeopleRepository
 
     public async Task<People> UpdatePerson(People Person)
     {
-        var person = await _context.People.FirstOrDefaultAsync(x => x.Id == Person.Id);
+        var person = await _context.People.Include(x => x.Phone).FirstOrDefaultAsync(x => x.Id == Person.Id);
 
         person.Name = Person.Name;
+        person.Phone.PhoneNumber = Person.Phone.PhoneNumber;
         person.IsActive = Person.IsActive;
 
         await _context.SaveChangesAsync();
@@ -49,7 +51,7 @@ public class PeopleRepository : IPeopleRepository
 
     public async Task<People> DeletePerson(int Id)
     {
-        var person = await _context.People.FindAsync(Id);
+        var person = await _context.People.Include(x => x.Phone).FirstOrDefaultAsync(x => x.Id == Id);
 
         if (person == null) return null!;
 
